@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 buildscript {
     configurations.classpath {
@@ -125,9 +126,22 @@ dependencies {
     testRuntimeOnly(files(tasks["createClasspathManifest"]))
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.apiVersion = kotlinApiVersion
-    kotlinOptions.allWarningsAsErrors = true
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        apiVersion = kotlinApiVersion
+        allWarningsAsErrors = true
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnit()
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
 }
 
