@@ -29,6 +29,9 @@ open class BundleMacosJdk @Inject constructor(
         val scriptsDir = scriptsDir.get().asFile
         val tmpDir = tmpDir.get().asFile
         try {
+            // Cleanup temporary directory so stale files do not affect the current task execution
+            rmdirs(tmpDir)
+            tmpDir.mkdirs()
             val scriptName = "bundle_macos_jdk.sh"
             BundledScripts.extractScriptsToDir(scriptsDir, scriptName)
             project.exec {

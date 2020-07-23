@@ -55,6 +55,7 @@ open class CreateDmg @Inject constructor(
         val scriptsDir = scriptsDir.get().asFile
         val dmgDir = dmgDir.get().asFile
         try {
+            // Cleanup temporary directory so stale files do not affect the current task execution
             rmdirs(dmgDir)
             dmgDir.mkdirs()
             BundledScripts.extractScriptsToDir(scriptsDir, *scripts)
