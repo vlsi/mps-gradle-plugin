@@ -31,11 +31,6 @@ open class BundleMacosJdk @Inject constructor(
         try {
             val scriptName = "bundle_macos_jdk.sh"
             BundledScripts.extractScriptsToDir(scriptsDir, scriptName)
-            scriptsDir.listFiles()?.let {
-                for (file in it) {
-                    println(file.absolutePath)
-                }
-            }
             project.exec {
                 executable = "./$scriptName"
                 workingDir = scriptsDir
